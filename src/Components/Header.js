@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { BsFillFlagFill } from "react-icons/bs";
+import { useDispatch } from 'react-redux'
+import { deletePotentialCountries, setPotentialCountries } from "../redux/slices/potentialCountriesSlice";
 
 const Header = () => {
+    let dispatch = useDispatch()
     const [input, setInput] = useState();
     return (
         <div className="header">
@@ -24,7 +27,9 @@ const Header = () => {
                         axios
                             .get(`https://restcountries.com/v3.1/name/${input}`)
                             .then((res) => {
-                                console.log(res.data);
+                                // console.log(res.data);
+                                dispatch(deletePotentialCountries())
+                                dispatch(setPotentialCountries(res.data))
                             })
                             .catch((err) => {
                                 alert(

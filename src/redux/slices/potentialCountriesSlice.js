@@ -12,8 +12,12 @@ export const potentialCountriesSlice = createSlice({
         ],
     },
     reducers: {
-        setPotentialCountries: () => {},
-        deletePotentialCountries: () => {}
+        setPotentialCountries: (state, action) => {
+            state.value = action.payload
+        },
+        deletePotentialCountries: (state) => {
+            state.value = null
+        }
     }
 })
 
