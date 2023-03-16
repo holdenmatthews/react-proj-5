@@ -2,8 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectDisplay } from "../redux/slices/displayCountrySlice";
+import { setLoadingTrue, setLoadingFalse } from "../redux/slices/loadingSlice";
+import { useDispatch } from 'react-redux'
 
 const Weather = () => {
+    let dispatch = useDispatch()
     const [weather, setWeather] = useState();
     let display = useSelector(selectDisplay)
     let latitude = display.capitalInfo.latlng[0]
@@ -20,12 +23,14 @@ const Weather = () => {
             'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
           }
         };
-        
+        dispatch(setLoadingTrue())
         axios.request(options).then(function (response) {
             console.log(response.data);
             setWeather(response.data)
+            dispatch(setLoadingFalse())
         }).catch(function (error) {
             console.error(error);
+            dispatch(setLoadingFalse())
         });
 
     }, [])
